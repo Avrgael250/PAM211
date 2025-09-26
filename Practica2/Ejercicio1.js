@@ -12,6 +12,4 @@ const {
   edad,
   dirección: { ciudad },
 } = persona;
-document.write(
-  `Hola me llamo ${nombre}, tengo ${edad} años y vivo en ${dirección.ciudad}`
-);
+document.write(`Hola me llamo ${nombre}, tengo ${edad} años y vivo en ${ciudad}`);

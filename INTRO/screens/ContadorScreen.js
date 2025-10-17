@@ -30,10 +30,10 @@ export default function ContadorScreen() {
 //3. Estilos: Zona estetica para componentes
 const styles = StyleSheet.create({
     container: {
-    flex: 1,
-    backgroundColor: '#adadadff',
-    alignItems: 'center', // Cambia la poición X del botón
-    justifyContent: 'center', // Cambia la posición Y del botón
+        flex: 1,
+        backgroundColor: '#adadadff',
+        alignItems: 'center', // Cambia la poición X del botón
+        justifyContent: 'center', // Cambia la posición Y del botón
     },
 
     texto:{
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
         
     },
 
-        texto2:{
+    texto2:{
         color:'#ffda45ff',
         fontSize:40, // Tamaño de la fuente
         fontFamily: 'Arial', // Tipografía
@@ -60,6 +60,4 @@ const styles = StyleSheet.create({
         flexDirection:'colum-reverse', // Colocación de los botones
         gap: 15, // Separación de los botones
     },
-
-
 });

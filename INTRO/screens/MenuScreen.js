@@ -35,14 +35,14 @@ export default function MenuScreen() {
                 return (
             <View>
                 <Text style={styles.title}> Menu de Prácticas </Text>
-                <Button onPress={() => setScreen('contador')} title='Práctica: Contador' />
-                <Button onPress={() => setScreen('botones')} title='Práctica: Botones' />
-                <Button onPress={() => setScreen('textinput')} title='Práctica: Text Input y Alert' />
-                <Button onPress={() => setScreen('imagebackground')} title='Práctica: ImageBackground' />
-                <Button onPress={() => setScreen('scrollview')} title='Práctica: ScrollView' />
-                <Button onPress={() => setScreen('activityindicator')} title='Práctica: ActivityIndicator' />
-                <Button onPress={() => setScreen('list')} title='Práctica: Lists' />
-                <Button onPress={() => setScreen('modal')} title='Práctica: Modal' />
+                <Button color= 'purple' onPress={() => setScreen('contador')} title='Práctica: Contador' />
+                <Button color= 'red' onPress={() => setScreen('botones')} title='Práctica: Botones' />
+                <Button color= 'pink' onPress={() => setScreen('textinput')} title='Práctica: Text Input y Alert' />
+                <Button color= 'yellow' onPress={() => setScreen('imagebackground')} title='Práctica: ImageBackground' />
+                <Button color= 'green' onPress={() => setScreen('scrollview')} title='Práctica: ScrollView' />
+                <Button color= 'orange' onPress={() => setScreen('activityindicator')} title='Práctica: ActivityIndicator' />
+                <Button color= 'blue' onPress={() => setScreen('list')} title='Práctica: Lists' />
+                <Button color= 'grey'onPress={() => setScreen('modal')} title='Práctica: Modal' />
             </View>
         )
     }
@@ -52,6 +52,7 @@ export default function MenuScreen() {
 const styles = StyleSheet.create({
     title: {
         fontSize: 24,
+        fontFamily: 'Thor',
         textAlign: 'center',
         marginVertical: 20,
     }

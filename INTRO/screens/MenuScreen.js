@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import BotonesScreen from './BotonesScreen';
 import ContadorScreen from './ContadorScreen';
 import TextInputScreen from './TextInputScreen';
-import ImageBackgroundScreen from './ImageBackgroundScreen';
+import ImageBackgroundScreen from './ImageScreen';
 import ScrollViewScreen from './ScrollViewScreen';
 import ActivityIndicatorScreen from './ActivityIndicatorScreen';
 import ListScreen from './ListScreen';

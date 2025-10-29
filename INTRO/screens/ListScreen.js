@@ -1,5 +1,4 @@
 import { Text, StyleSheet, View, FlatList, SectionList } from 'react-native'
-import React from 'react'
 
 export default function ListScreen() {
     // Datos para la lista simple
@@ -42,9 +41,11 @@ export default function ListScreen() {
                 <Text style={styles.titulo}>Contactos</Text>
                 <SectionList
                     sections={contactos}
+                    // renderItem: Mostrar elementos individuales en una lista
                     renderItem={({item}) => (
                         <Text style={styles.item}>{item}</Text>
                     )}
+                    // renderSectionHeader = renderizar el cabecero de section list
                     renderSectionHeader={({section}) => (
                         <Text style={styles.header}>{section.titulo}</Text>
                     )}

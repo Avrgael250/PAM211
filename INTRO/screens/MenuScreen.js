@@ -8,6 +8,7 @@ import ScrollViewScreen from './ScrollViewScreen';
 import ActivityIndicatorScreen from './ActivityIndicatorScreen';
 import ListScreen from './ListScreen';
 import ModalScreen from './ModalScreen';
+import RepasoScreen from './Repaso';
 import { Button } from 'react-native-web';
 
 export default function MenuScreen() {
@@ -30,6 +31,8 @@ export default function MenuScreen() {
             return <ListScreen/>;
         case 'modal':
             return <ModalScreen/>;
+        case 'repaso':
+            return <RepasoScreen/>;
         case 'menu':
         default:
                 return (
@@ -42,7 +45,8 @@ export default function MenuScreen() {
                 <Button color= 'green' onPress={() => setScreen('scrollview')} title='Práctica: ScrollView' />
                 <Button color= 'orange' onPress={() => setScreen('activityindicator')} title='Práctica: ActivityIndicator' />
                 <Button color= 'blue' onPress={() => setScreen('list')} title='Práctica: Lists' />
-                <Button color= 'grey'onPress={() => setScreen('modal')} title='Práctica: Modal' />
+                <Button color= 'grey' onPress={() => setScreen('modal')} title='Práctica: Modal' />
+                <Button color= '#800080' onPress={() => setScreen('repaso')} title='Práctica: Repaso' />
             </View>
         )
     }

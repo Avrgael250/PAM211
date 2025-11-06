@@ -52,7 +52,7 @@ export default function ListScreen() {
                 />
             </View>
         </View>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
@@ -92,4 +92,4 @@ const styles = StyleSheet.create({
         padding: 10,
         marginTop: 10,
     }
-})
+});

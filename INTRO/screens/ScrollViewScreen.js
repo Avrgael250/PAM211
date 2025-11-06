@@ -348,4 +348,4 @@ const styles = StyleSheet.create({
         backgroundColor: '#094b14ff',
         borderRadius: 10,
     }
-})
+});

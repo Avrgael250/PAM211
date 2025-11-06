@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, Switch, TouchableOpacity, Alert, ImageBackground, ActivityIndicator, Image, } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Switch, TouchableOpacity, Platform, ImageBackground, ActivityIndicator, Image, } from 'react-native';
 
 const RepasoScreen = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -13,21 +13,28 @@ const RepasoScreen = () => {
     }, 2000);
   }, []);
 
+  const showAlert = (title, message) => {
+    if (Platform.OS === 'web') {
+      window.alert(`${title}\n${message}`);
+    } else {
+      Alert.alert(title, message);
+    }
+  };
+
   const handleRegister = () => {
+    console.log('Botón presionado'); // Para debugging
+    
     if (!fullName.trim() || !email.trim()) {
-      Alert.alert('Error', 'Por favor complete todos los campos');
+      showAlert('Error', 'Por favor complete todos los campos');
       return;
     }
 
     if (!acceptTerms) {
-      Alert.alert('Error', 'Debe aceptar los términos y condiciones');
+      showAlert('Error', 'Debe aceptar los términos y condiciones');
       return;
     }
 
-    Alert.alert(
-      'Registro Exitoso',
-      `Datos ingresados:\nNombre: ${fullName}\nEmail: ${email}`
-    );
+    showAlert('Registro Exitoso', `Datos ingresados:\nNombre: ${fullName}\nEmail: ${email}`);
   };
 
   if (isLoading) {
@@ -81,10 +88,11 @@ const RepasoScreen = () => {
         </View>
 
         <TouchableOpacity
-          style={styles.button}
+          style={[styles.button, { backgroundColor: '#007AFF', borderRadius: 5 }]}
           onPress={handleRegister}
+          activeOpacity={0.7}
         >
-          <Text style={styles.buttonText}>Registrarse</Text>
+          <Text style={[styles.buttonText, { color: '#FFFFFF' }]}>Registrarse</Text>
         </TouchableOpacity>
       </View>
     </ImageBackground>

@@ -2,9 +2,30 @@ import { Text, StyleSheet, View, Modal, Button } from 'react-native'
 import React, { useState } from 'react'
 
 export default function ModalScreen() {
+
+    const [modalVisible, setModalVisible ] = useState(false);
+
     return (
-        <View>
-            <Text>Proximamente...</Text>
+        <View style={styles.container}>
+            <Button title='Mostrar modal' onPress={()=> setModalVisible(true)} color='green'>
+            </Button>
+
+            <Modal 
+            animationType='fade'
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => setModalVisible(!modalVisible)}
+            >
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalContent}>
+                        <Text style={styles.textoModal}> No soy un modal </Text>
+
+                        <Button title='Ocultar modal' onPress={()=> setModalVisible(false)} color='red'>
+
+                        </Button>
+                    </View>
+                </View>
+            </Modal>
         </View>
     )
 }
@@ -14,34 +35,27 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: '#c9c9c9'
     },
-    title: {
-        fontSize: 24,
-        marginBottom: 20,
-    },
-    centeredView: {
+
+    modalContainer: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor:'#c9c9c9'
+    },
+
+    modalContent: {
         backgroundColor: 'rgba(0,0,0,0.5)',
-    },
-    modalView: {
-        backgroundColor: 'white',
-        borderRadius: 20,
-        padding: 35,
+        padding: 25,
+        borderRadius: 15,
         alignItems: 'center',
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5,
     },
-    modalText: {
+
+    textoModal: {
+        backgroundColor: 'white',
+        fontSize: 22,
+        fontWeight: 'bold',
         marginBottom: 15,
-        textAlign: 'center',
-        fontSize: 18,
-    }
-})
+    },
+});

@@ -13,6 +13,7 @@ export default function UsuarioView() {
   const [nombre, setNombre] = useState('');
   const [loading, setLoading] = useState(true);
   const [guardando, setGuardando] = useState(false);
+  const [editando, setEditando] = useState(null); // Usuario en edición
 
   // SELECT - Cargar usuarios desde la BD
   const cargarUsuarios = useCallback(async () => {
@@ -59,6 +60,56 @@ export default function UsuarioView() {
     }
   };
 
+  // UPDATE - Actualizar usuario existente
+  const handleActualizar = async () => {
+    if (guardando || !editando) return;
+    try {
+      setGuardando(true);
+      await controller.actualizarUsuario(editando.id, nombre);
+      Alert.alert('Éxito', `Usuario "${nombre}" actualizado correctamente`);
+      cancelarEdicion();
+    } catch (error) {
+      Alert.alert('Error', error.message);
+    } finally {
+      setGuardando(false);
+    }
+  };
+
+  // DELETE - Eliminar usuario
+  const handleEliminar = (usuario) => {
+    Alert.alert(
+      'Confirmar eliminación',
+      `¿Estás seguro de eliminar a "${usuario.nombre}"?`,
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        {
+          text: 'Eliminar',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await controller.eliminarUsuario(usuario.id);
+              Alert.alert('Éxito', 'Usuario eliminado correctamente');
+            } catch (error) {
+              Alert.alert('Error', error.message);
+            }
+          }
+        }
+      ]
+    );
+  };
+
+  // Preparar edición
+  const iniciarEdicion = (usuario) => {
+    setEditando(usuario);
+    setNombre(usuario.nombre);
+  };
+
+  // Cancelar edición
+  const cancelarEdicion = () => {
+    setEditando(null);
+    setNombre('');
+  };
+
   // Renderizar cada usuario
   const renderUsuario = ({ item, index }) => (
     <View style={styles.userItem}>
@@ -69,12 +120,26 @@ export default function UsuarioView() {
         <Text style={styles.userName}>{item.nombre}</Text>
         <Text style={styles.userId}>ID: {item.id}</Text>
         <Text style={styles.userDate}>
-          {new Date(item.fechaCreacion).toLocaleDateString('es-MX', {
+          {new Date(item.fechaCreacion || item.fecha_creacion).toLocaleDateString('es-MX', {
             year: 'numeric',
             month: 'long',
             day: 'numeric'
           })}
         </Text>
+      </View>
+      <View style={styles.botonesAccion}>
+        <TouchableOpacity
+          style={styles.botonEditar}
+          onPress={() => iniciarEdicion(item)}
+        >
+          <Text style={styles.botonAccionTexto}>Editar</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.botonEliminar}
+          onPress={() => handleEliminar(item)}
+        >
+          <Text style={styles.botonAccionTexto}>Eliminar</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -82,14 +147,16 @@ export default function UsuarioView() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>INSERT & SELECT</Text>
+        <Text style={styles.headerTitle}>CRUD COMPLETO</Text>
         <Text style={styles.headerSubtitle}>
           {Platform.OS === 'web' ? 'WEB (LocalStorage)' : 'MÓVIL (SQLite)'}
         </Text>
       </View>
 
       <View style={styles.formulario}>
-        <Text style={styles.titulo}>Insertar Usuario</Text>
+        <Text style={styles.titulo}>
+          {editando ? `Editando: ${editando.nombre}` : 'Insertar Usuario'}
+        </Text>
 
         <TextInput
           style={styles.input}
@@ -98,17 +165,42 @@ export default function UsuarioView() {
           onChangeText={setNombre}
         />
 
-        <TouchableOpacity
-          style={[styles.botonGuardar, guardando && styles.botonDeshabilitado]}
-          onPress={handleAgregar}
-          disabled={!nombre.trim() || guardando}
-        >
-          {guardando ? (
-            <ActivityIndicator color="white" />
+        <View style={styles.botonesFormulario}>
+          {editando ? (
+            <>
+              <TouchableOpacity
+                style={[styles.botonGuardar, styles.botonActualizar, guardando && styles.botonDeshabilitado]}
+                onPress={handleActualizar}
+                disabled={!nombre.trim() || guardando}
+              >
+                {guardando ? (
+                  <ActivityIndicator color="white" />
+                ) : (
+                  <Text style={styles.botonTexto}>Actualizar</Text>
+                )}
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.botonCancelar}
+                onPress={cancelarEdicion}
+                disabled={guardando}
+              >
+                <Text style={styles.botonTexto}>Cancelar</Text>
+              </TouchableOpacity>
+            </>
           ) : (
-            <Text style={styles.botonTexto}>Agregar Usuario</Text>
+            <TouchableOpacity
+              style={[styles.botonGuardar, guardando && styles.botonDeshabilitado]}
+              onPress={handleAgregar}
+              disabled={!nombre.trim() || guardando}
+            >
+              {guardando ? (
+                <ActivityIndicator color="white" />
+              ) : (
+                <Text style={styles.botonTexto}>Agregar Usuario</Text>
+              )}
+            </TouchableOpacity>
           )}
-        </TouchableOpacity>
+        </View>
       </View>
 
       <View style={styles.listaContainer}>
@@ -249,6 +341,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderLeftWidth: 4,
     borderLeftColor: '#5b9aff',
+    alignItems: 'center',
   },
   userNumber: {
     width: 40,
@@ -282,5 +375,45 @@ const styles = StyleSheet.create({
   userDate: {
     fontSize: 12,
     color: '#999',
+  },
+  botonesFormulario: {
+    flexDirection: 'row',
+    gap: 10,
+  },
+  botonActualizar: {
+    flex: 1,
+    backgroundColor: '#FF9800',
+  },
+  botonCancelar: {
+    flex: 1,
+    backgroundColor: '#757575',
+    padding: 15,
+    borderRadius: 6,
+    alignItems: 'center',
+  },
+  botonesAccion: {
+    flexDirection: 'row',
+    gap: 8,
+  },
+  botonEditar: {
+    backgroundColor: '#FF9800',
+    padding: 10,
+    borderRadius: 6,
+    minWidth: 60,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  botonEliminar: {
+    backgroundColor: '#f44336',
+    padding: 10,
+    borderRadius: 6,
+    minWidth: 60,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  botonAccionTexto: {
+    fontSize: 12,
+    color: 'white',
+    fontWeight: '600',
   },
 });

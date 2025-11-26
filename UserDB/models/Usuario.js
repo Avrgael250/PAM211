@@ -3,7 +3,7 @@ export class Usuario {
     constructor(id, nombre, fecha_creacion) {
         this.id = id;
         this.nombre = nombre;
-        this.fecha_creacion = fecha_creacion || new Date().toISOString();
+        this.fechaCreacion = fecha_creacion || new Date().toISOString();
     }
 
     static validar(nombre) {
